@@ -2,11 +2,24 @@
 var express = require('express'),
     app = express();
 
-var burgers = [
-                "Hamburger",
-                "Cheese Burger",
-                "Dble Cheese Burger"
-               ];
+    path = require("path"),
+    //bodyParser = require("body-parser"),
+    // _ = require("underscore"),
+    views = path.join(process.cwd(), "views/");
+
+
+app.get("/",function(req,res){
+    res.sendFile(views +"/index.html");
+});
+
+app.get("/signup", function(req,res) {
+    res.sendFile(views + "/signup.html");
+})
+
+app.get("/login", function(req,res) {
+    res.sendFile(views + "/login.html");
+})
+
 
 // a "GET" request to "/" will run the function below
 app.get("/", function (req, res) {
