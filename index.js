@@ -1,10 +1,11 @@
 // requirements
 var express = require('express'),
+ db = require("./models"),
     app = express();
 
+
     path = require("path"),
-    //bodyParser = require("body-parser"),
-    // _ = require("underscore"),
+    bodyParser = require("body-parser"),
     views = path.join(process.cwd(), "views/");
 
 
@@ -14,30 +15,22 @@ app.get("/",function(req,res){
 
 app.get("/signup", function(req,res) {
     res.sendFile(views + "/signup.html");
-})
+});
 
 app.get("/login", function(req,res) {
     res.sendFile(views + "/login.html");
-})
-
-
-// a "GET" request to "/" will run the function below
-app.get("/", function (req, res) {
-    // send back the response: 'Hello World'
-    res.send("Hello World");
 });
 
-app.get("/burger", function(req, res) {
-	res.send(burgers);
-})
+app.post("/signup#", function(req, res) {
+	var user = req.body.user;
+	var username = user.username;
+	var email = user.email;
+	var password = user.password;
 
-app.get("/greet/:name", function(req,res) {
-	res.send("Hello, " + req.params.name);
-})
-
-app.get("/welcome", function(req,res) {
-	res.send("Whatsup, " + req.query.name);
-})
+	db.User.createSecure(username, email, password, function() {
+		res.send(username + " is registered!\n");
+	});
+});
 
 // start the server
 app.listen(3000, function () {
